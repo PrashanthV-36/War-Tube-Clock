@@ -53,10 +53,41 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: calc(var(--_size) * 0.01); /* em hack for shade scaling */
+    font-size: calc(var(--_size) * 0.01);
 
     --_factor: min(600px, 80vh);
-    --_size: min(var(--_factor), 80vw);
+    --_size: min(var(--_factor), 90vw);  /* Changed from 80vw to 90vw */
+}
+
+/* NEW: Mobile Responsive Adjustments */
+@media screen and (max-width: 768px) {
+    .clock {
+        --_factor: min(500px, 75vh);
+        --_size: min(var(--_factor), 95vw);
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .clock {
+        --_factor: min(400px, 70vh);
+        --_size: min(var(--_factor), 98vw);
+    }
+}
+
+/* NEW: Portrait orientation - optimize for vertical screens */
+@media screen and (orientation: portrait) and (max-width: 768px) {
+    .clock {
+        --_factor: min(90vw, 60vh);
+        --_size: var(--_factor);
+    }
+}
+
+/* NEW: Landscape orientation on mobile */
+@media screen and (orientation: landscape) and (max-height: 500px) {
+    .clock {
+        --_factor: min(400px, 85vh);
+        --_size: var(--_factor);
+    }
 }
 .shadow {
     position: absolute;
@@ -1352,4 +1383,104 @@ body {
     ;
     filter: blur(0.7px);
     animation: 5s flicker linear infinite;
+}
+/* ================================== */
+/* MOBILE RESPONSIVE ENHANCEMENTS */
+/* ================================== */
+
+/* Touch-friendly button for mobile devices */
+@media screen and (max-width: 768px) {
+    .button {
+        width: 6em;
+        height: 6em;
+        /* Ensure minimum 44px touch target */
+        min-width: 44px;
+        min-height: 44px;
+    }
+}
+
+/* Extra small screens - ensure button is always tappable */
+@media screen and (max-width: 480px) {
+    .button {
+        width: 7em;
+        height: 7em;
+        min-width: 48px;
+        min-height: 48px;
+    }
+}
+
+/* Reduce overflow on very small screens */
+@media screen and (max-width: 360px) {
+    html, body {
+        overflow: auto;
+    }
+    
+    .clock {
+        --_size: min(350px, 95vw);
+    }
+}
+
+/* Optimize for tablets in portrait mode */
+@media screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+    .clock {
+        --_factor: min(600px, 70vh);
+        --_size: min(var(--_factor), 85vw);
+    }
+}
+
+/* Optimize for tablets in landscape mode */
+@media screen and (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+    .clock {
+        --_factor: min(550px, 80vh);
+        --_size: var(--_factor);
+    }
+}
+
+/* Large mobile devices (phablets) */
+@media screen and (min-width: 480px) and (max-width: 768px) {
+    .clock {
+        --_factor: min(480px, 75vh);
+        --_size: min(var(--_factor), 92vw);
+    }
+    
+    .button {
+        width: 5.5em;
+        height: 5.5em;
+    }
+}
+
+/* Ultra-wide screens - prevent clock from being too large */
+@media screen and (min-width: 1920px) {
+    .clock {
+        --_factor: min(700px, 80vh);
+        --_size: var(--_factor);
+    }
+}
+
+/* High DPI displays - smoother rendering */
+@media screen and (-webkit-min-device-pixel-ratio: 2),
+       screen and (min-resolution: 192dpi) {
+    .button {
+        filter: blur(0.5px);
+    }
+}
+
+/* Accessibility: Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+    *, *:before, *:after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Print styles - hide interactive elements */
+@media print {
+    .button {
+        display: none;
+    }
+    
+    .power-cord {
+        display: none;
+    }
 }
